@@ -8,11 +8,12 @@
 #import "PBSettingViewController.h"
 #import "PBSettingGroup.h"
 #import "PBSettingManager.h"
+#import "PBSettingSwitchCell.h"
 
 #import <Masonry/Masonry.h>
 #import <BlocksKit/UIControl+BlocksKit.h>
 
-@interface PBSettingViewController ()
+@interface PBSettingViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray<PBSettingGroup *> *settingGroups;
 
@@ -37,6 +38,45 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO];
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.settingGroups.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.settingGroups[section].items.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 20;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    PBSettingGroup *group = self.settingGroups[section];
+    UIView *headerView = [[UIView alloc] init];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 0)];
+    label.text = group.title;
+    [headerView addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(10);
+        make.bottom.mas_equalTo(label);
+    }];
+    return headerView;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    PBSettingSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(PBSettingSwitchCell.class)];
+    if (!cell) {
+        cell = [[PBSettingSwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(PBSettingSwitchCell.class)];
+    }
+    PBSettingSwitchItem *item = self.settingGroups[indexPath.section].items[indexPath.row];
+    cell.item = item;
+    return cell;
 }
 
 - (void)setupViews {
@@ -87,6 +127,19 @@
     if (self.settingsView) {
         return;
     }
+    self.settingsView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    self.settingsView.dataSource = self;
+    self.settingsView.delegate = self;
+    self.settingsView.backgroundColor = [UIColor clearColor];
+    self.settingsView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.settingsView.rowHeight = 44;
+    [self.view addSubview:self.settingsView];
+    [self.settingsView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(self.view);
+        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.navigationView.mas_bottom);
+        make.bottom.mas_equalTo(self.view);
+    }];
 }
 
 // 状态栏颜色为白色
