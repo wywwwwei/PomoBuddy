@@ -13,6 +13,7 @@
 #import "PBRecordsStatViewController.h"
 #import "PBEventListController.h"
 #import "PBEvent.h"
+#import "PBToast.h"
 
 #import <Masonry/Masonry.h>
 #import <BlocksKit/UIGestureRecognizer+BlocksKit.h>
@@ -79,6 +80,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 - (void)onApplyEventNotification:(NSNotification *)notification {
     PBEvent *event = notification.userInfo[@"event"];
     if (event) {
+        [PBToast showToastTitle:[NSString stringWithFormat:@"Apply event: %@", event.title] duration:3];
         _originDuration = event.spendTime;
         [self updateDurationLabel];
     }

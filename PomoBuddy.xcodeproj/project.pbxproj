@@ -25,6 +25,7 @@
 		85419C052BD021FA00E1786E /* PBEventListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419C042BD021FA00E1786E /* PBEventListController.m */; };
 		85419C082BD0243600E1786E /* PBEventListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419C072BD0243600E1786E /* PBEventListCell.m */; };
 		85419C0B2BD0302700E1786E /* PBEventAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419C0A2BD0302700E1786E /* PBEventAlertView.m */; };
+		85419C0E2BD0364A00E1786E /* PBToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419C0D2BD0364A00E1786E /* PBToast.m */; };
 		856AF1EE2BCB0B7000F6FD55 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1ED2BCB0B7000F6FD55 /* AppDelegate.m */; };
 		856AF1F12BCB0B7000F6FD55 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1F02BCB0B7000F6FD55 /* SceneDelegate.m */; };
 		856AF1F42BCB0B7000F6FD55 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1F32BCB0B7000F6FD55 /* ViewController.m */; };
@@ -74,6 +75,8 @@
 		85419C072BD0243600E1786E /* PBEventListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBEventListCell.m; sourceTree = "<group>"; };
 		85419C092BD0302000E1786E /* PBEventAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBEventAlertView.h; sourceTree = "<group>"; };
 		85419C0A2BD0302700E1786E /* PBEventAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBEventAlertView.m; sourceTree = "<group>"; };
+		85419C0C2BD0364300E1786E /* PBToast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBToast.h; sourceTree = "<group>"; };
+		85419C0D2BD0364A00E1786E /* PBToast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBToast.m; sourceTree = "<group>"; };
 		856AF1E92BCB0B7000F6FD55 /* PomoBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PomoBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		856AF1EC2BCB0B7000F6FD55 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		856AF1ED2BCB0B7000F6FD55 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -143,6 +146,8 @@
 				850BD5DA2BCBC72D00A0103E /* PBCommonUtils.m */,
 				850BD5E92BCC587200A0103E /* UIView+Helper.h */,
 				850BD5EA2BCC587200A0103E /* UIView+Helper.m */,
+				85419C0C2BD0364300E1786E /* PBToast.h */,
+				85419C0D2BD0364A00E1786E /* PBToast.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE56F3C22BCF800F005F56E3 /* PBHistoricalDataRecord.m in Sources */,
+				85419C0E2BD0364A00E1786E /* PBToast.m in Sources */,
 				850BD5E42BCC23C800A0103E /* PBEvent.m in Sources */,
 				85419C052BD021FA00E1786E /* PBEventListController.m in Sources */,
 				850BD5F52BCDAC3900A0103E /* PBSettingManager.m in Sources */,
