@@ -518,7 +518,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 }
 
 - (void)updateDurationLabel {
-    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld minutes", self.originDuration];
+    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld s", self.originDuration];
     [self.durationLabel sizeToFit];
 }
 
