@@ -67,6 +67,7 @@ static const CGFloat PBHomePageMenuLogoWidth = 60.f;
     }
     self.appDescLabel = [[UILabel alloc] init];
     self.appDescLabel.text = @"PomoBuddy";
+    self.appDescLabel.font = [UIFont boldSystemFontOfSize:20.0];
     self.appDescLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:self.appDescLabel];
     [self.appDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -108,6 +109,7 @@ static const CGFloat PBHomePageMenuLogoWidth = 60.f;
     
     UILabel *label = [[UILabel alloc] init];
     label.text = item.title;
+    label.font = [UIFont boldSystemFontOfSize:16.0];
     [containerView addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(containerView);

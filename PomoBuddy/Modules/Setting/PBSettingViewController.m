@@ -51,7 +51,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 20;
+    return 40;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -59,9 +59,11 @@
     UIView *headerView = [[UIView alloc] init];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 0)];
     label.text = group.title;
+    label.font = [UIFont boldSystemFontOfSize:20.0]; // 设置字体为20号加粗
     [headerView addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(10);
+        make.top.mas_equalTo(20);
+        make.left.mas_equalTo(20);
         make.bottom.mas_equalTo(label);
     }];
     return headerView;
@@ -115,10 +117,12 @@
     UILabel *label = [[UILabel alloc] init];
     label.text = @"Settings";
     label.textAlignment = NSTextAlignmentCenter;
+    
+    label.font = [UIFont boldSystemFontOfSize:25.0];
     [self.navigationView addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.navigationView);
-        make.centerY.mas_equalTo(backButton);
+        make.centerY.mas_equalTo(40);
         make.bottom.mas_equalTo(10);
     }];
 }
@@ -132,7 +136,7 @@
     self.settingsView.delegate = self;
     self.settingsView.backgroundColor = [UIColor clearColor];
     self.settingsView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.settingsView.rowHeight = 44;
+    self.settingsView.rowHeight = 60;
     [self.view addSubview:self.settingsView];
     [self.settingsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.view);
