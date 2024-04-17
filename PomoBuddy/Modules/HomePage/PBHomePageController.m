@@ -9,31 +9,44 @@
 #import "PBHomePageMenuView.h"
 #import "PBSettingViewController.h"
 #import "PBNavigationController.h"
+#import "PBCountdownCell.h"
 
 #import <Masonry/Masonry.h>
 #import <BlocksKit/UIGestureRecognizer+BlocksKit.h>
+#import <BlocksKit/UIControl+BlocksKit.h>
 
 static const CGFloat PBHomePageButtonWidth = 120.f;
 static const CGFloat PBHomePageButtonHeight = 44.f;
 
-@interface PBHomePageController ()
+@interface PBHomePageController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UIImageView *backgroundView;
 
-// 不同样式的倒计时
+// display different style countdown timer
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) NSArray<PBCountdownModel *> *countdownModels;
 
-// 用于动画辅助的容器view
+// Container view for animation assistance
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UIButton *menuButton;
 @property (nonatomic, strong) UIButton *startButton;
 @property (nonatomic, strong) UIButton *pauseButton;
 @property (nonatomic, strong) UIButton *resumeButton;
 @property (nonatomic, strong) UIButton *exitButton;
+@property (nonatomic, strong) UISlider *slider;
+@property (nonatomic, strong) UILabel *durationLabel;
 
 @property (nonatomic, strong, nullable) UIView *menuMaskView;
 @property (nonatomic, strong, nullable) PBHomePageMenuView *menuView;
 @property (nonatomic, strong) NSArray<PBHomePageMenuItem *> *menuItems;
+
+// preset countdown time
+@property (nonatomic, assign) NSInteger originDuration;
+// the remain countdown time
+@property (nonatomic, assign) NSInteger currentDuration;
+@property (nonatomic, strong, nullable) NSTimer *countdownTimer;
+
+@property (nonatomic, weak) PBCountdownCell *currentCell;
 
 @end
 
@@ -41,6 +54,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self loadDefaultDuration];
     [self setupSubviews];
 }
 
@@ -56,9 +70,68 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 - (void)setupSubviews {
     [self createBackgroundView];
+    [self createCollectionView];
     [self createContainerView];
     [self createMenuButton];
     [self createStartButton];
+    [self createSlider];
+    [self createDurationLabel];
+}
+
+- (NSArray<PBCountdownModel *> *)countdownModels {
+    if (!_countdownModels) {
+        _countdownModels = @[
+            [PBCountdownModel countdownModelWithTitle:@"Afternoon" backgroundColor:RGBACOLOR(6, 139, 229, 0.4)],
+            [PBCountdownModel countdownModelWithTitle:@"Rain" backgroundColor:RGBACOLOR(70, 84, 92, 0.6)],
+            [PBCountdownModel countdownModelWithTitle:@"Forest" backgroundColor:RGBACOLOR(49, 201, 48, 0.4)],
+            [PBCountdownModel countdownModelWithTitle:@"Beach" backgroundColor:RGBACOLOR(6, 139, 229, 0.4)],
+            [PBCountdownModel countdownModelWithTitle:@"Muse" backgroundColor:RGBACOLOR(134, 55, 225, 0.3)],
+        ];
+    }
+    return _countdownModels;
+}
+
+#pragma mark - Timer
+
+- (void)setOriginDuration:(NSInteger)originDuration {
+    _originDuration = originDuration;
+    [self updateDurationLabel];
+    [[NSUserDefaults standardUserDefaults] setInteger:originDuration forKey:@"settings_duration"];
+}
+
+- (void)setCurrentDuration:(NSInteger)currentDuration {
+    _currentDuration = currentDuration;
+    [self.currentCell updateCurrentDuration:currentDuration];
+}
+
+- (void)loadDefaultDuration {
+    NSInteger recordDuration = [[NSUserDefaults standardUserDefaults] integerForKey:@"settings_duration"];
+    _originDuration = recordDuration > 0 ? recordDuration : 30;
+}
+
+- (void)startTimer {
+    self.currentDuration = self.originDuration;
+    [self resumeTimer];
+}
+
+- (void)pauseTimer {
+    [self destroyTimer];
+}
+
+- (void)resumeTimer {
+    WEAK_REF(self);
+    self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        STRONG_REF(self);
+        self.currentDuration -= 1;
+        if (self.currentDuration == 0) {
+            [self destroyTimer];
+        }
+    }];
+}
+
+- (void)destroyTimer {
+    [self.countdownTimer invalidate];
+    self.countdownTimer = nil;
 }
 
 #pragma mark - Event
@@ -69,6 +142,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 - (void)onStartButtonClick {
     self.collectionView.scrollEnabled = NO;
+    [self hideSlider];
     
     [self createPauseButton];
     self.pauseButton.alpha = 0;
@@ -80,8 +154,10 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         self.pauseButton.alpha = 1;
     }
                     completion:^(BOOL finished) {
-        
+        [self startTimer];
     }];
+    [self.currentCell showCountdownView];
+    [self.currentCell startAnimation];
 }
 
 - (void)onPauseButtonClick {
@@ -102,6 +178,8 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
             self.exitButton.centerX += 68;
         }];
     }];
+    [self pauseTimer];
+    [self.currentCell stopAnimation];
 }
 
 - (void)onResumeButtonClick {
@@ -113,10 +191,15 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         self.resumeButton.alpha = 0;
         self.exitButton.alpha = 0;
     } completion:^(BOOL finished) {
+        [self resumeTimer];
     }];
+    [self.currentCell startAnimation];
 }
 
 - (void)onExitButtonClick {
+    self.collectionView.scrollEnabled = YES;
+    [self showSlider];
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.resumeButton.frame = self.containerView.frame;
         self.exitButton.frame = self.containerView.frame;
@@ -127,6 +210,8 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     } completion:^(BOOL finished) {
         
     }];
+    [self.currentCell showInformationView];
+    [self.currentCell stopAnimation];
 }
 
 - (void)showMenu {
@@ -218,6 +303,52 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     }];
 }
 
+#pragma mark - UICollectionViewDelegate
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        [self updateCurrentCell];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self updateCurrentCell];
+}
+
+- (PBCountdownCell *)currentCell {
+    if (!_currentCell) {
+        [self updateCurrentCell];
+    }
+    return _currentCell;
+}
+
+- (void)updateCurrentCell {
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[self.collectionView convertPoint:CGPointMake(self.view.width / 2, self.view.height / 2) fromView:self.view]];
+    self.currentCell = (PBCountdownCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return collectionView.size;
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section {
+    return self.countdownModels.count;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    PBCountdownCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(PBCountdownCell.class) forIndexPath:indexPath];
+    cell.model = self.countdownModels[indexPath.row];
+    return cell;
+}
+
 #pragma mark - UI
 
 - (void)createBackgroundView {
@@ -260,7 +391,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         make.width.mas_equalTo(PBHomePageButtonWidth);
         make.height.mas_equalTo(PBHomePageButtonHeight);
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.bottom.mas_equalTo(-100);
+        make.bottom.mas_equalTo(-150);
     }];
 }
 
@@ -324,6 +455,82 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     self.exitButton.layer.borderColor = [UIColor whiteColor].CGColor;
     [self.exitButton addTarget:self action:@selector(onExitButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.exitButton];
+}
+
+- (void)createCollectionView {
+    if (self.collectionView) {
+        return;
+    }
+    UICollectionViewFlowLayout * collectionLayout = [[UICollectionViewFlowLayout alloc] init];
+    collectionLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    collectionLayout.minimumLineSpacing = 0;
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:collectionLayout];
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.collectionView.pagingEnabled = YES;
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.bounces = NO;
+    [self.collectionView registerClass:PBCountdownCell.class forCellWithReuseIdentifier:NSStringFromClass(PBCountdownCell.class)];
+    [self.view addSubview:self.collectionView];
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
+}
+
+- (void)createSlider {
+    if (self.slider) {
+        return;
+    }
+    self.slider = [[UISlider alloc] init];
+    self.slider.minimumTrackTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    self.slider.maximumTrackTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+    WEAK_REF(self);
+    [self.slider bk_addEventHandler:^(UISlider *sender) {
+        STRONG_REF(self);
+        // from 5 to 300
+        self.originDuration = 5 + (sender.value * 295);
+    } forControlEvents:UIControlEventValueChanged];
+    self.slider.value = (self.originDuration - 5) / 295.f;
+    [self.view addSubview:self.slider];
+    [self.slider mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(self.view).multipliedBy(0.7);
+        make.centerX.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(self.containerView.mas_top).offset(-70);
+    }];
+}
+
+- (void)createDurationLabel {
+    if (self.durationLabel) {
+        return;
+    }
+    self.durationLabel = [[UILabel alloc] init];
+    self.durationLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    [self updateDurationLabel];
+    [self.view addSubview:self.durationLabel];
+    [self.durationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.slider.mas_bottom).mas_offset(10);
+    }];
+}
+
+- (void)updateDurationLabel {
+    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld", self.originDuration];
+    [self.durationLabel sizeToFit];
+}
+
+- (void)showSlider {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.slider.alpha = 1;
+        self.durationLabel.alpha = 1;
+    }];
+}
+
+- (void)hideSlider {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.slider.alpha = 0;
+        self.durationLabel.alpha = 0;
+    }];
 }
 
 // 状态栏颜色为白色

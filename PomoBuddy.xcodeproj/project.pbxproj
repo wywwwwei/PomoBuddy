@@ -19,6 +19,8 @@
 		850BD5F52BCDAC3900A0103E /* PBSettingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 850BD5F42BCDAC3900A0103E /* PBSettingManager.m */; };
 		850BD5F92BCE318E00A0103E /* PBNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 850BD5F82BCE318E00A0103E /* PBNavigationController.m */; };
 		85419BF92BCE714600E1786E /* PBSettingSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419BF82BCE714600E1786E /* PBSettingSwitchCell.m */; };
+		85419BFC2BCECFC200E1786E /* PBCountdownCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419BFB2BCECFC200E1786E /* PBCountdownCell.m */; };
+		85419BFF2BCECFD500E1786E /* PBCountdownModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419BFE2BCECFD500E1786E /* PBCountdownModel.m */; };
 		856AF1EE2BCB0B7000F6FD55 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1ED2BCB0B7000F6FD55 /* AppDelegate.m */; };
 		856AF1F12BCB0B7000F6FD55 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1F02BCB0B7000F6FD55 /* SceneDelegate.m */; };
 		856AF1F42BCB0B7000F6FD55 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1F32BCB0B7000F6FD55 /* ViewController.m */; };
@@ -54,6 +56,10 @@
 		850BD5F82BCE318E00A0103E /* PBNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBNavigationController.m; sourceTree = "<group>"; };
 		85419BF72BCE713700E1786E /* PBSettingSwitchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBSettingSwitchCell.h; sourceTree = "<group>"; };
 		85419BF82BCE714600E1786E /* PBSettingSwitchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBSettingSwitchCell.m; sourceTree = "<group>"; };
+		85419BFA2BCECFAD00E1786E /* PBCountdownCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBCountdownCell.h; sourceTree = "<group>"; };
+		85419BFB2BCECFC200E1786E /* PBCountdownCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBCountdownCell.m; sourceTree = "<group>"; };
+		85419BFD2BCECFCF00E1786E /* PBCountdownModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBCountdownModel.h; sourceTree = "<group>"; };
+		85419BFE2BCECFD500E1786E /* PBCountdownModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBCountdownModel.m; sourceTree = "<group>"; };
 		856AF1E92BCB0B7000F6FD55 /* PomoBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PomoBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		856AF1EC2BCB0B7000F6FD55 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		856AF1ED2BCB0B7000F6FD55 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -128,6 +134,10 @@
 			children = (
 				850BD5D52BCB1B2200A0103E /* PBHomePageController.h */,
 				850BD5D62BCB1B3300A0103E /* PBHomePageController.m */,
+				85419BFA2BCECFAD00E1786E /* PBCountdownCell.h */,
+				85419BFB2BCECFC200E1786E /* PBCountdownCell.m */,
+				85419BFD2BCECFCF00E1786E /* PBCountdownModel.h */,
+				85419BFE2BCECFD500E1786E /* PBCountdownModel.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -335,6 +345,7 @@
 			files = (
 				850BD5E42BCC23C800A0103E /* PBEvent.m in Sources */,
 				850BD5F52BCDAC3900A0103E /* PBSettingManager.m in Sources */,
+				85419BFF2BCECFD500E1786E /* PBCountdownModel.m in Sources */,
 				850BD5DF2BCBD51800A0103E /* PBSettingViewController.m in Sources */,
 				850BD5F92BCE318E00A0103E /* PBNavigationController.m in Sources */,
 				850BD5DB2BCBC72D00A0103E /* PBCommonUtils.m in Sources */,
@@ -348,6 +359,7 @@
 				856AF1FF2BCB0B7100F6FD55 /* main.m in Sources */,
 				856AF1F12BCB0B7000F6FD55 /* SceneDelegate.m in Sources */,
 				850BD5D72BCB1B3300A0103E /* PBHomePageController.m in Sources */,
+				85419BFC2BCECFC200E1786E /* PBCountdownCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
