@@ -10,7 +10,7 @@
 #import "PBSettingViewController.h"
 #import "PBNavigationController.h"
 #import "PBCountdownCell.h"
-#import "RecordsStatViewController.h"
+#import "PBRecordsStatViewController.h"
 
 #import <Masonry/Masonry.h>
 #import <BlocksKit/UIGestureRecognizer+BlocksKit.h>
@@ -41,9 +41,9 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 @property (nonatomic, strong, nullable) PBHomePageMenuView *menuView;
 @property (nonatomic, strong) NSArray<PBHomePageMenuItem *> *menuItems;
 
-// preset countdown time
+// preset countdown time, the unit is second
 @property (nonatomic, assign) NSInteger originDuration;
-// the remain countdown time
+// the remain countdown time, the unit is second
 @property (nonatomic, assign) NSInteger currentDuration;
 @property (nonatomic, strong, nullable) NSTimer *countdownTimer;
 
@@ -253,7 +253,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         NSMutableArray *items = [NSMutableArray array];
         
         PBHomePageMenuItem *settingItem = [[PBHomePageMenuItem alloc] init];
-        settingItem.icon = [UIImage imageNamed:@"setting"];
+        settingItem.icon = [UIImage imageNamed:@"settings"];
         settingItem.title = @"Settings";
         WEAK_REF(self);
         settingItem.handler = ^{
@@ -268,18 +268,21 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         [items addObject:settingItem];
         
         PBHomePageMenuItem *statisticItem = [[PBHomePageMenuItem alloc] init];
-        statisticItem.icon = [UIImage imageNamed:@"setting"];
+        statisticItem.icon = [UIImage imageNamed:@"statistics"];
         statisticItem.title = @"Statistics";
         statisticItem.handler = ^{
             STRONG_REF(self);
             // 打开历史统计页
-            RecordsStatViewController *recordsVC = [[RecordsStatViewController alloc] init];
-            [self.navigationController pushViewController:recordsVC animated:YES];
+            PBRecordsStatViewController *recordsVC = [[PBRecordsStatViewController alloc] init];
+            PBNavigationController *nav = [[PBNavigationController alloc] initWithRootViewController:recordsVC];
+            nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+            nav.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+            [self presentViewController:nav animated:YES completion:nil];
         };
         [items addObject:statisticItem];
         
         PBHomePageMenuItem *eventItem = [[PBHomePageMenuItem alloc] init];
-        eventItem.icon = [UIImage imageNamed:@"setting"];
+        eventItem.icon = [UIImage imageNamed:@"events"];
         eventItem.title = @"Events";
         eventItem.handler = ^{
             // 打开事件页面
@@ -373,11 +376,11 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     self.menuButton.backgroundColor = [UIColor clearColor];
     [self.menuButton setImage:[UIImage imageNamed:@"menu"] forState:UIControlStateNormal];
     [self.menuButton addTarget:self action:@selector(onMenuButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    self.menuButton.contentEdgeInsets = UIEdgeInsetsMake(7.5, 7.5, 7.5, 7.5);
     [self.view addSubview:self.menuButton];
     [self.menuButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(35);
-        make.left.mas_equalTo(10);
+        make.width.height.mas_equalTo(45);
+        make.left.mas_equalTo(15);
         make.top.mas_equalTo([PBCommonUtils safeAreaInsets].top);
     }];
 }
@@ -490,13 +493,14 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     self.slider.minimumTrackTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     self.slider.maximumTrackTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     self.slider.thumbTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    const CGFloat minValue = 1.f, maxValue = 60.f;
     WEAK_REF(self);
     [self.slider bk_addEventHandler:^(UISlider *sender) {
         STRONG_REF(self);
-        // from 5 to 300
-        self.originDuration = 5 + (sender.value * 3595);
+        // from 1 to 60 mins
+        self.originDuration = round((minValue + (maxValue - minValue) * sender.value)) * 60;
     } forControlEvents:UIControlEventValueChanged];
-    self.slider.value = (self.originDuration - 5) / 3595.f;
+    self.slider.value = (self.originDuration / 60 - minValue) / (maxValue - minValue);
     [self.view addSubview:self.slider];
     [self.slider mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.view).multipliedBy(0.7);
@@ -521,7 +525,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 - (void)updateDurationLabel {
     NSInteger minutes = self.originDuration / 60;
-    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld min", minutes];
+    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld min%@", minutes, minutes > 1 ? @"s": @""];
     [self.durationLabel sizeToFit];
 }
 

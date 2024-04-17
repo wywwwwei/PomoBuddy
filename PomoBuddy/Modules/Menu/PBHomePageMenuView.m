@@ -24,6 +24,7 @@ static const CGFloat PBHomePageMenuLogoWidth = 60.f;
 @property (nonatomic, strong) NSArray<PBHomePageMenuItem *> *menuItems;
 @property (nonatomic, strong) UIStackView *buttonsView;
 
+@property (nonatomic, strong) UIVisualEffectView *effectView;
 @end
 
 @implementation PBHomePageMenuView
@@ -31,7 +32,7 @@ static const CGFloat PBHomePageMenuLogoWidth = 60.f;
 - (instancetype)initWithMenuItems:(NSArray<PBHomePageMenuItem *> *)menuItems {
     if (self = [super init]) {
         _menuItems = menuItems;
-        self.backgroundColor = [UIColor colorWithWhite:1 alpha:0.6];
+        self.backgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
         [self setupSubviews];
     }
     return self;
@@ -41,6 +42,20 @@ static const CGFloat PBHomePageMenuLogoWidth = 60.f;
     [self createLogoView];
     [self createDescLabel];
     [self createButtonsView];
+    [self createEffectView];
+}
+
+- (void)createEffectView {
+    if (self.effectView) {
+        return;
+    }
+    UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    self.effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [self addSubview:self.effectView];
+    [self sendSubviewToBack:self.effectView];
+    [self.effectView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self);
+    }];
 }
 
 - (void)createLogoView {
@@ -113,7 +128,7 @@ static const CGFloat PBHomePageMenuLogoWidth = 60.f;
     [containerView addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(containerView);
-        make.left.mas_equalTo(iconView.mas_right).offset(20);
+        make.left.mas_equalTo(iconView.mas_right).offset(15);
     }];
     
     UIView *splitLine = [[UIView alloc] init];

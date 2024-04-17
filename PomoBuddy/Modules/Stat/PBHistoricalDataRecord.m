@@ -1,13 +1,13 @@
 //
-//  HistoricalDataRecord.m
+//  PBHistoricalDataRecord.m
 //  PomoBuddy
 //
 //  Created by 楚门 on 2024/4/17.
 //
 
-#import "HistoricalDataRecord.h"
+#import "PBHistoricalDataRecord.h"
 
-@implementation HistoricalDataRecord
+@implementation PBHistoricalDataRecord
 
 
 - (instancetype)initWithEventName:(NSString *)eventName

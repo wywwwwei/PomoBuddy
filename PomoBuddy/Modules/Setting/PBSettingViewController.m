@@ -9,6 +9,7 @@
 #import "PBSettingGroup.h"
 #import "PBSettingManager.h"
 #import "PBSettingSwitchCell.h"
+#import "PBNavigationBar.h"
 
 #import <Masonry/Masonry.h>
 #import <BlocksKit/UIControl+BlocksKit.h>
@@ -17,7 +18,7 @@
 
 @property (nonatomic, strong) NSArray<PBSettingGroup *> *settingGroups;
 
-@property (nonatomic, strong) UIView *navigationView;
+@property (nonatomic, strong) PBNavigationBar *navigationView;
 @property (nonatomic, strong) UITableView *settingsView;
 
 @end
@@ -91,39 +92,12 @@
     if (self.navigationView) {
         return;
     }
-    self.navigationView = [[UIView alloc] init];
-    self.navigationView.backgroundColor = [UIColor clearColor];
+    self.navigationView = [[PBNavigationBar alloc] initWithTitle:@"Settings"];
     [self.view addSubview:self.navigationView];
     [self.navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.view);
-        make.height.mas_equalTo([PBCommonUtils safeAreaInsets].top + 40.f);
+        make.height.mas_equalTo(NAVIGATION_BAR_HEIGHT);
         make.top.left.mas_equalTo(0);
-    }];
-    
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"menu"] forState:UIControlStateNormal];
-    WEAK_REF(self);
-    [backButton bk_addEventHandler:^(id sender) {
-        STRONG_REF(self);
-        [self.navigationController popViewControllerAnimated:YES];
-    } forControlEvents:UIControlEventTouchUpInside];
-    [self.navigationView addSubview:backButton];
-    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.height.mas_equalTo(20);
-        make.left.mas_equalTo(20);
-        make.bottom.mas_equalTo(-15);
-    }];
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"Settings";
-    label.textAlignment = NSTextAlignmentCenter;
-    
-    label.font = [UIFont boldSystemFontOfSize:25.0];
-    [self.navigationView addSubview:label];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.navigationView);
-        make.centerY.mas_equalTo(40);
-        make.bottom.mas_equalTo(10);
     }];
 }
 

@@ -1,33 +1,65 @@
 //
-//  RecordsStatViewController.m
+//  PBRecordsStatViewController.m
 //  PomoBuddy
 //
 //  Created by 楚门 on 2024/4/17.
 //
 
-#import "RecordsStatViewController.h"
-#import "HistoricalDataRecord.h" // 导入 Record 类的头文件
+#import "PBRecordsStatViewController.h"
+#import "PBHistoricalDataRecord.h" // 导入 Record 类的头文件
 #import "PBHomePageController.h" // 导入设置页面控制器的头文件
+#import "PBNavigationBar.h"
 
+#import <Masonry/Masonry.h>
 
-@interface RecordsStatViewController ()
+@interface PBRecordsStatViewController ()
 
-@property (nonatomic, strong) NSMutableArray<HistoricalDataRecord *> *records; // 用于存储随机生成的 Record 数据的数组
+@property (nonatomic, strong) PBNavigationBar *navigationView;
+
+@property (nonatomic, strong) NSMutableArray<PBHistoricalDataRecord *> *records; // 用于存储随机生成的 Record 数据的数组
 
 @end
 
-@implementation RecordsStatViewController
+@implementation PBRecordsStatViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // 生成随机的 Record 数据
     [self generateRandomRecords];
+    [self setupViews];
     // 初始化页面布局并展示生成的 Record 数据
     [self setupDataStatisticsView];
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
+
+- (void)setupViews {
+    [self createNavigationView];
+    // 初始化页面布局并展示生成的 Record 数据
+    [self setupDataStatisticsView];
+}
+
+- (void)createNavigationView {
+    if (self.navigationView) {
+        return;
+    }
+    self.navigationView = [[PBNavigationBar alloc] initWithTitle:@"Statistics"];
+    [self.view addSubview:self.navigationView];
+    [self.navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(self.view);
+        make.height.mas_equalTo(NAVIGATION_BAR_HEIGHT);
+        make.top.left.mas_equalTo(0);
+    }];
+}
 
 // 生成随机的 Record 数据
 - (void)generateRandomRecords {
@@ -40,7 +72,7 @@
         // 随机生成结束时间，要大于开始时间，同时保证结束时间小于开始时间加上时长
         NSDate *endTime = [self randomDateBetweenDate:startTime andDate:[NSDate dateWithTimeInterval:duration sinceDate:startTime]];
         NSTimeInterval actualDuration = [endTime timeIntervalSinceDate:startTime]; // 实际持续时间为结束时间减去开始时间
-        HistoricalDataRecord *record = [[HistoricalDataRecord alloc] initWithEventName:eventName
+        PBHistoricalDataRecord *record = [[PBHistoricalDataRecord alloc] initWithEventName:eventName
                                                                               duration:duration
                                                                              startTime:startTime
                                                                                endTime:endTime
@@ -54,7 +86,7 @@
 
 - (void)setupDataStatisticsView {
     // 设置页面的背景样式
-    self.view.backgroundColor =[UIColor colorWithRed:225/255.0 green:180/255.0 blue:135/255.0 alpha:0.9];
+    self.view.backgroundColor = [UIColor colorWithRed:225/255.0 green:180/255.0 blue:135/255.0 alpha:0.9];
     
     // 添加第一个白底小方框作为第一块模块
     UIView *firstBox = [[UIView alloc] initWithFrame:CGRectMake(20, 100, CGRectGetWidth(self.view.frame) - 40, 200)];
@@ -108,7 +140,7 @@
     NSMutableSet *uniqueDays = [NSMutableSet set];
     
     // 遍历所有记录
-    for (HistoricalDataRecord *record in self.records) {
+    for (PBHistoricalDataRecord *record in self.records) {
         // 累加总专注时长（小时）
         totalFocusTime += record.actualDuration / 3600.0;
         
@@ -159,7 +191,7 @@
     NSTimeInterval todayFocusTime = 0;
     
     // 遍历所有记录
-    for (HistoricalDataRecord *record in self.records) {
+    for (PBHistoricalDataRecord *record in self.records) {
         // 判断记录的开始时间是否为今天
         NSDateComponents *recordComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:record.startTime];
         NSDate *recordDay = [calendar dateFromComponents:recordComponents];
@@ -203,7 +235,7 @@
     for (NSString *dayString in last7Days) {
         durationForLast7Days[dayString] = @0;
     }
-    for (HistoricalDataRecord *record in self.records) {
+    for (PBHistoricalDataRecord *record in self.records) {
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:record.startTime];
         NSDate *day = [[NSCalendar currentCalendar] dateFromComponents:components];
         NSString *dayString = [dateFormatter stringFromDate:day];

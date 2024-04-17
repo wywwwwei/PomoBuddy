@@ -21,14 +21,15 @@
 		85419BF92BCE714600E1786E /* PBSettingSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419BF82BCE714600E1786E /* PBSettingSwitchCell.m */; };
 		85419BFC2BCECFC200E1786E /* PBCountdownCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419BFB2BCECFC200E1786E /* PBCountdownCell.m */; };
 		85419BFF2BCECFD500E1786E /* PBCountdownModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419BFE2BCECFD500E1786E /* PBCountdownModel.m */; };
+		85419C022BD00EA100E1786E /* PBNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 85419C012BD00EA100E1786E /* PBNavigationBar.m */; };
 		856AF1EE2BCB0B7000F6FD55 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1ED2BCB0B7000F6FD55 /* AppDelegate.m */; };
 		856AF1F12BCB0B7000F6FD55 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1F02BCB0B7000F6FD55 /* SceneDelegate.m */; };
 		856AF1F42BCB0B7000F6FD55 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1F32BCB0B7000F6FD55 /* ViewController.m */; };
 		856AF1F92BCB0B7100F6FD55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 856AF1F82BCB0B7100F6FD55 /* Assets.xcassets */; };
 		856AF1FC2BCB0B7100F6FD55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 856AF1FA2BCB0B7100F6FD55 /* LaunchScreen.storyboard */; };
 		856AF1FF2BCB0B7100F6FD55 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1FE2BCB0B7100F6FD55 /* main.m */; };
-		EE56F3BF2BCF7F07005F56E3 /* RecordsStatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE56F3BE2BCF7F07005F56E3 /* RecordsStatViewController.m */; };
-		EE56F3C22BCF800F005F56E3 /* HistoricalDataRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = EE56F3C12BCF800F005F56E3 /* HistoricalDataRecord.m */; };
+		EE56F3BF2BCF7F07005F56E3 /* PBRecordsStatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE56F3BE2BCF7F07005F56E3 /* PBRecordsStatViewController.m */; };
+		EE56F3C22BCF800F005F56E3 /* PBHistoricalDataRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = EE56F3C12BCF800F005F56E3 /* PBHistoricalDataRecord.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,8 @@
 		85419BFB2BCECFC200E1786E /* PBCountdownCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBCountdownCell.m; sourceTree = "<group>"; };
 		85419BFD2BCECFCF00E1786E /* PBCountdownModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBCountdownModel.h; sourceTree = "<group>"; };
 		85419BFE2BCECFD500E1786E /* PBCountdownModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBCountdownModel.m; sourceTree = "<group>"; };
+		85419C002BD00E9300E1786E /* PBNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBNavigationBar.h; sourceTree = "<group>"; };
+		85419C012BD00EA100E1786E /* PBNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBNavigationBar.m; sourceTree = "<group>"; };
 		856AF1E92BCB0B7000F6FD55 /* PomoBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PomoBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		856AF1EC2BCB0B7000F6FD55 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		856AF1ED2BCB0B7000F6FD55 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -74,10 +77,10 @@
 		856AF1FD2BCB0B7100F6FD55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		856AF1FE2BCB0B7100F6FD55 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B33B42EE5A767CD5810D5F5C /* Pods-PomoBuddy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PomoBuddy.debug.xcconfig"; path = "Target Support Files/Pods-PomoBuddy/Pods-PomoBuddy.debug.xcconfig"; sourceTree = "<group>"; };
-		EE56F3BD2BCF7F07005F56E3 /* RecordsStatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecordsStatViewController.h; sourceTree = "<group>"; };
-		EE56F3BE2BCF7F07005F56E3 /* RecordsStatViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordsStatViewController.m; sourceTree = "<group>"; };
-		EE56F3C02BCF800F005F56E3 /* HistoricalDataRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoricalDataRecord.h; sourceTree = "<group>"; };
-		EE56F3C12BCF800F005F56E3 /* HistoricalDataRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoricalDataRecord.m; sourceTree = "<group>"; };
+		EE56F3BD2BCF7F07005F56E3 /* PBRecordsStatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBRecordsStatViewController.h; sourceTree = "<group>"; };
+		EE56F3BE2BCF7F07005F56E3 /* PBRecordsStatViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBRecordsStatViewController.m; sourceTree = "<group>"; };
+		EE56F3C02BCF800F005F56E3 /* PBHistoricalDataRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBHistoricalDataRecord.h; sourceTree = "<group>"; };
+		EE56F3C12BCF800F005F56E3 /* PBHistoricalDataRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBHistoricalDataRecord.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +191,8 @@
 			children = (
 				850BD5F72BCE1FA400A0103E /* PBNavigationController.h */,
 				850BD5F82BCE318E00A0103E /* PBNavigationController.m */,
+				85419C002BD00E9300E1786E /* PBNavigationBar.h */,
+				85419C012BD00EA100E1786E /* PBNavigationBar.m */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -232,10 +237,10 @@
 		EE56F3BC2BCF7EDD005F56E3 /* Stat */ = {
 			isa = PBXGroup;
 			children = (
-				EE56F3BD2BCF7F07005F56E3 /* RecordsStatViewController.h */,
-				EE56F3BE2BCF7F07005F56E3 /* RecordsStatViewController.m */,
-				EE56F3C02BCF800F005F56E3 /* HistoricalDataRecord.h */,
-				EE56F3C12BCF800F005F56E3 /* HistoricalDataRecord.m */,
+				EE56F3BD2BCF7F07005F56E3 /* PBRecordsStatViewController.h */,
+				EE56F3BE2BCF7F07005F56E3 /* PBRecordsStatViewController.m */,
+				EE56F3C02BCF800F005F56E3 /* PBHistoricalDataRecord.h */,
+				EE56F3C12BCF800F005F56E3 /* PBHistoricalDataRecord.m */,
 			);
 			path = Stat;
 			sourceTree = "<group>";
@@ -353,9 +358,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE56F3C22BCF800F005F56E3 /* HistoricalDataRecord.m in Sources */,
+				EE56F3C22BCF800F005F56E3 /* PBHistoricalDataRecord.m in Sources */,
 				850BD5E42BCC23C800A0103E /* PBEvent.m in Sources */,
 				850BD5F52BCDAC3900A0103E /* PBSettingManager.m in Sources */,
+				85419C022BD00EA100E1786E /* PBNavigationBar.m in Sources */,
 				85419BFF2BCECFD500E1786E /* PBCountdownModel.m in Sources */,
 				850BD5DF2BCBD51800A0103E /* PBSettingViewController.m in Sources */,
 				850BD5F92BCE318E00A0103E /* PBNavigationController.m in Sources */,
@@ -365,7 +371,7 @@
 				856AF1F42BCB0B7000F6FD55 /* ViewController.m in Sources */,
 				85419BF92BCE714600E1786E /* PBSettingSwitchCell.m in Sources */,
 				850BD5EF2BCDA96300A0103E /* PBSettingSwitchItem.m in Sources */,
-				EE56F3BF2BCF7F07005F56E3 /* RecordsStatViewController.m in Sources */,
+				EE56F3BF2BCF7F07005F56E3 /* PBRecordsStatViewController.m in Sources */,
 				856AF1EE2BCB0B7000F6FD55 /* AppDelegate.m in Sources */,
 				850BD5F22BCDAB7600A0103E /* PBSettingGroup.m in Sources */,
 				856AF1FF2BCB0B7100F6FD55 /* main.m in Sources */,
