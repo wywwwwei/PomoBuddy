@@ -99,7 +99,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 - (void)setOriginDuration:(NSInteger)originDuration {
     _originDuration = originDuration;
     [self updateDurationLabel];
-    [[NSUserDefaults standardUserDefaults] setInteger:originDuration forKey:@"settings_duration"];
+    NSLog(@"OriginDuration set %ld", (long)originDuration);
 }
 
 - (void)setCurrentDuration:(NSInteger)currentDuration {
@@ -109,7 +109,14 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 - (void)loadDefaultDuration {
     NSInteger recordDuration = [[NSUserDefaults standardUserDefaults] integerForKey:@"settings_duration"];
-    _originDuration = recordDuration > 0 ? recordDuration : 30;
+    _originDuration = recordDuration > 0 ? recordDuration : 30 * 60;
+    NSLog(@"OriginDuration load %ld", (long)_originDuration);
+}
+
+- (void)saveDefaultDuration {
+    NSLog(@"OriginDuration save %ld", (long)self.originDuration);
+    [[NSUserDefaults standardUserDefaults] setInteger:self.originDuration forKey:@"settings_duration"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)startTimer {
@@ -493,14 +500,18 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     self.slider.minimumTrackTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     self.slider.maximumTrackTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     self.slider.thumbTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
-    const CGFloat minValue = 1.f, maxValue = 60.f;
+    const NSInteger minValue = 1, maxValue = 60;
+    self.slider.value = (self.originDuration / 60 - minValue) * 1.f / (maxValue - minValue);
     WEAK_REF(self);
     [self.slider bk_addEventHandler:^(UISlider *sender) {
         STRONG_REF(self);
         // from 1 to 60 mins
-        self.originDuration = round((minValue + (maxValue - minValue) * sender.value)) * 60;
+        self.originDuration = @((minValue + (maxValue - minValue) * sender.value)).integerValue * 60;
     } forControlEvents:UIControlEventValueChanged];
-    self.slider.value = (self.originDuration / 60 - minValue) / (maxValue - minValue);
+    [self.slider bk_addEventHandler:^(UISlider *sender) {
+        STRONG_REF(self);
+        [self saveDefaultDuration];
+    } forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.slider];
     [self.slider mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.view).multipliedBy(0.7);
