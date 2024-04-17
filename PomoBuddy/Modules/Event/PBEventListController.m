@@ -8,6 +8,8 @@
 #import "PBEventListController.h"
 #import "PBNavigationBar.h"
 #import "PBEventListCell.h"
+#import "PBEventAlertView.h"
+#import "PBToast.h"
 
 #import <Masonry/Masonry.h>
 #import <BlocksKit/UIControl+BlocksKit.h>
@@ -41,7 +43,16 @@
 }
 
 - (void)loadData {
-    self.dataSource = [[NSUserDefaults standardUserDefaults] arrayForKey:@"saveList"];
+    NSData *data = [[NSUserDefaults standardUserDefaults] dataForKey:@"saveList"];
+    if (data) {
+        NSError *error;
+        self.dataSource = [NSKeyedUnarchiver unarchivedObjectOfClasses:[NSSet setWithArray:@[NSArray.class, PBEvent.class, NSNumber.class, NSString.class]]
+                                                              fromData:data
+                                                                 error:&error];
+        if (error) {
+            NSLog(@"Decode data error:%@", error.description);
+        }
+    }
     if (!self.dataSource) {
         self.dataSource = @[
             [PBEvent eventWithTitle:@"每周读一本好书" spendTime:200 totalTime:600],
@@ -53,7 +64,33 @@
 }
 
 - (void)showAddEventAlert {
-    
+    PBEventAlertView *alertView = [[PBEventAlertView alloc] init];
+    WEAK_REF(self);
+    WEAK_REF(alertView);
+    alertView.confirmBlock = ^(PBEvent * _Nonnull event) {
+        STRONG_REF(self);
+        STRONG_REF(alertView);
+        [alertView dismiss];
+        
+        NSMutableArray *dataSource = [self.dataSource mutableCopy];
+        [dataSource addObject:event];
+        self.dataSource = dataSource;
+        [self.tableView reloadData];
+        [PBToast showToastTitle:[NSString stringWithFormat:@"\"%@\" added", event.title] duration:3];
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dataSource requiringSecureCoding:YES error:nil];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"saveList"];
+    };
+    alertView.cancelBlock = ^{
+        STRONG_REF(alertView);
+        [alertView dismiss];
+    };
+    [self.view addSubview:alertView];
+    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view);
+        make.centerY.mas_equalTo(self.view).multipliedBy(0.9);
+    }];
+    [alertView show];
 }
 
 #pragma mark - <UITableViewDataSource>

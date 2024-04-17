@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PBEvent : NSObject
+@interface PBEvent : NSObject <NSSecureCoding>
 
 // 事件名
 @property (nonatomic, strong) NSString *title;

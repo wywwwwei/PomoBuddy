@@ -6,10 +6,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PBEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PBEventAlertView : UIView
+
+@property (nonatomic, copy) void(^confirmBlock)(PBEvent *event);
+@property (nonatomic, copy) void(^cancelBlock)(void);
+
+- (void)show;
+- (void)dismiss;
 
 @end
 

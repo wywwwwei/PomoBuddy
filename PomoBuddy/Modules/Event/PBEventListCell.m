@@ -31,14 +31,15 @@
     self.titleLabel.text = event.title;
     [self.titleLabel sizeToFit];
     
-    NSInteger min = event.spendTime / 60;
-    NSInteger sec = event.spendTime % 60;
-    NSString *desc = [NSString stringWithFormat:@"%@分钟    总学习", @(event.totalTime / 60)];
+    NSInteger min = event.totalTime / 60;
+    NSInteger sec = event.totalTime % 60;
+    NSString *desc = [NSString stringWithFormat:@"%@分钟    总学习", @(event.spendTime / 60)];
     if (min > 0) {
         desc = [desc stringByAppendingString:[NSString stringWithFormat:@"%@分",@(min)]];
-    }
-    if (sec > 0) {
+    } else if (sec > 0) {
         desc = [desc stringByAppendingString:[NSString stringWithFormat:@"%@秒",@(sec)]];
+    } else {
+        desc = [desc stringByAppendingString:@"0分"];
     }
     self.descLabel.text = desc;
     [self.descLabel sizeToFit];
