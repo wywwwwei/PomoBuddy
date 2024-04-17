@@ -54,7 +54,7 @@
 
 - (void)setupDataStatisticsView {
     // 设置页面的背景样式
-    self.view.backgroundColor = [UIColor colorWithRed:0.8 green:1.0 blue:1.0 alpha:1.0];
+    self.view.backgroundColor =[UIColor colorWithRed:225/255.0 green:180/255.0 blue:135/255.0 alpha:0.9];
     
     // 添加第一个白底小方框作为第一块模块
     UIView *firstBox = [[UIView alloc] initWithFrame:CGRectMake(20, 100, CGRectGetWidth(self.view.frame) - 40, 200)];
@@ -63,6 +63,19 @@
     firstBox.clipsToBounds = YES;
     [self.view addSubview:firstBox];
     
+    // 创建 UIImageView 对象，并设置图片
+    UIImage *image = [UIImage imageNamed:@"avatar"];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+
+    // 设置 UIImageView 的位置，使其位于第一个方框的右下角
+    CGFloat imageViewWidth = 100; // 图片宽度
+    CGFloat imageViewHeight = 100; // 图片高度
+    CGFloat margin = 10; // 图片距离右下角的边距
+    imageView.frame = CGRectMake(CGRectGetWidth(firstBox.frame) - imageViewWidth - margin, CGRectGetHeight(firstBox.frame) - imageViewHeight - margin, imageViewWidth, imageViewHeight);
+
+    // 将 UIImageView 添加到第一个方框中
+    [firstBox addSubview:imageView];
+
     // 添加第二个白底小方框作为第二块模块
     UIView *secondBox = [[UIView alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(firstBox.frame) + 20, CGRectGetWidth(self.view.frame) - 40, 100)];
     secondBox.backgroundColor = [UIColor whiteColor];
@@ -112,25 +125,25 @@
     // 将总专注时长和总专注天数显示在页面上的对应位置
     UILabel *totalDurationLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, CGRectGetWidth(box.frame) - 40, 30)];
     totalDurationLabel.text = @"Total Focus Duration:";
-    totalDurationLabel.textColor = [UIColor darkGrayColor];
+    totalDurationLabel.textColor = [UIColor blackColor];
     totalDurationLabel.font = [UIFont boldSystemFontOfSize:16.0]; // 深灰色加粗
     [box addSubview:totalDurationLabel];
         
     UILabel *totalDurationValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(totalDurationLabel.frame) + 5, CGRectGetWidth(box.frame) - 40, 30)];
     totalDurationValueLabel.text = [NSString stringWithFormat:@"%.2f hours", totalFocusTime];
-    totalDurationValueLabel.textColor = [UIColor colorWithRed:0.4 green:0.8 blue:0.8 alpha:1.0]; // #66CCCC
+    totalDurationValueLabel.textColor = [UIColor colorWithRed:255/255.0 green:149/255.0 blue:0 alpha:1.0]; // #66CCCC
     totalDurationValueLabel.font = [UIFont boldSystemFontOfSize:30.0]; // 薄荷绿加粗
     [box addSubview:totalDurationValueLabel];
         
     UILabel *totalDaysLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(totalDurationValueLabel.frame) + 20, CGRectGetWidth(box.frame) - 40, 30)];
     totalDaysLabel.text = @"Total Focus Days:";
-    totalDaysLabel.textColor = [UIColor darkGrayColor];
+    totalDaysLabel.textColor = [UIColor blackColor];
     totalDaysLabel.font = [UIFont boldSystemFontOfSize:16.0]; // 深灰色加粗
     [box addSubview:totalDaysLabel];
         
     UILabel *totalDaysValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(totalDaysLabel.frame) + 5, CGRectGetWidth(box.frame) - 40, 30)];
     totalDaysValueLabel.text = [NSString stringWithFormat:@"%lu days", (unsigned long)totalFocusDays];
-    totalDaysValueLabel.textColor = [UIColor colorWithRed:0.4 green:0.8 blue:0.8 alpha:1.0]; // #66CCCC
+    totalDaysValueLabel.textColor = [UIColor colorWithRed:255/255.0 green:149/255.0 blue:0 alpha:1.0]; // #66CCCC
     totalDaysValueLabel.font = [UIFont boldSystemFontOfSize:30.0]; // 薄荷绿加粗
     [box addSubview:totalDaysValueLabel];
 }
@@ -159,13 +172,13 @@
     // 创建显示今天总时长的 UILabel
     UILabel *todayTotalDurationLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, CGRectGetWidth(box.frame) - 40, 30)];
     todayTotalDurationLabel.text = @"Today's Total Focus Duration:";
-    todayTotalDurationLabel.textColor = [UIColor darkGrayColor];
+    todayTotalDurationLabel.textColor = [UIColor blackColor];
     todayTotalDurationLabel.font = [UIFont boldSystemFontOfSize:16.0]; // 深灰色加粗
     [box addSubview:todayTotalDurationLabel];
     
     UILabel *todayTotalDurationValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(todayTotalDurationLabel.frame) + 5, CGRectGetWidth(box.frame) - 40, 30)];
     todayTotalDurationValueLabel.text = [NSString stringWithFormat:@"%.2f hours", todayFocusTime];
-    todayTotalDurationValueLabel.textColor = [UIColor colorWithRed:0.4 green:0.8 blue:0.8 alpha:1.0]; // #66CCCC
+    todayTotalDurationValueLabel.textColor = [UIColor colorWithRed:255/255.0 green:149/255.0 blue:0 alpha:1.0]; // #66CCCC
     todayTotalDurationValueLabel.font = [UIFont boldSystemFontOfSize:30.0];
     [box addSubview:todayTotalDurationValueLabel];
     
@@ -218,13 +231,13 @@
         CGFloat y = maxHeight - height; // 将坐标原点放在底部，向上绘制柱状图
         CGRect barFrame = CGRectMake(x, y, barWidth, height); // 设置柱子的位置和大小
         UIView *barView = [[UIView alloc] initWithFrame:barFrame]; // 创建柱子
-        barView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.8 alpha:1.0]; // 使用 #FFFFCC 颜色
+        barView.backgroundColor = [UIColor colorWithRed:255/255.0 green:149/255.0 blue:0 alpha:1.0]; // 使用 #FFFFCC 颜色
         [box addSubview:barView]; // 将柱子添加到框框中
         
         // 添加日期标签
-        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, CGRectGetMaxY(box.bounds) - 20, barWidth, 20)]; // 设置日期标签的位置和大小
+        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, CGRectGetMaxY(box.bounds) - 50, barWidth, 20)]; // 设置日期标签的位置和大小
         dateLabel.text = [dayString substringFromIndex:5]; // 只保留月-日，并设置日期标签的文本
-        dateLabel.textColor = [UIColor darkGrayColor]; // 设置日期标签的颜色为深灰色
+        dateLabel.textColor = [UIColor blackColor]; // 设置日期标签的颜色为深灰色
         dateLabel.font = [UIFont systemFontOfSize:10.0 weight:UIFontWeightBold]; // 设置日期标签的字体为加粗
         dateLabel.textAlignment = NSTextAlignmentCenter; // 设置日期标签的对齐方式为居中
         [box addSubview:dateLabel]; // 将日期标签添加到框框中
@@ -243,7 +256,7 @@
     // 在框框左上角放一个标签显示这个图的主题
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, CGRectGetWidth(box.frame) - 20, 20)]; // 设置标题标签的位置和大小
     titleLabel.text = @"Focus Hours for the Past 7 Days"; // 设置标题标签的文本
-    titleLabel.textColor = [UIColor darkGrayColor]; //
+    titleLabel.textColor = [UIColor blackColor]; //
     titleLabel.font = [UIFont systemFontOfSize:16.0 weight:UIFontWeightBold]; //加粗
     titleLabel.textAlignment = NSTextAlignmentLeft; // 设置标题标签的对齐方式为左对齐
     [box addSubview:titleLabel]; // 将标题标签添加到框框中
