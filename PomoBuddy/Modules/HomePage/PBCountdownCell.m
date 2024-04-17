@@ -60,7 +60,7 @@
     for (NSInteger i = 0; i < pulsingCount; i++) {
         CALayer *pulsingLayer = [CALayer layer];
         pulsingLayer.frame = self.circleView.bounds;
-        pulsingLayer.borderColor = RGBACOLOR(255, 255, 255, 0.4).CGColor;
+        pulsingLayer.borderColor = RGBACOLOR(0, 0, 0, 0.6).CGColor;
         pulsingLayer.borderWidth = 1.5;
         pulsingLayer.cornerRadius = self.circleView.height / 2;
         
@@ -150,7 +150,8 @@
     self.circleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, width)];
     self.circleView.backgroundColor = [UIColor clearColor];
     self.circleView.layer.cornerRadius = width / 2;
-    self.circleView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.25].CGColor;
+//    self.circleView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.25].CGColor;
+    self.circleView.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.7].CGColor;
     self.circleView.layer.borderWidth = 3;
     [self.contentView addSubview:self.circleView];
     [self.circleView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -180,8 +181,8 @@
         return;
     }
     self.titleLabel = [[UILabel alloc] init];
-    self.titleLabel.font = [UIFont systemFontOfSize:30];
-    self.titleLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
+    self.titleLabel.font = [UIFont systemFontOfSize:34];
+    self.titleLabel.textColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.informationView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -196,8 +197,8 @@
     }
     self.dateLabel = [[UILabel alloc] init];
     self.dateLabel.textAlignment = NSTextAlignmentCenter;
-    self.dateLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
-    self.dateLabel.font = [UIFont systemFontOfSize:13];
+    self.dateLabel.textColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
+    self.dateLabel.font = [UIFont systemFontOfSize:14];
     self.dateLabel.text = [self currentDateString];
     [self.informationView addSubview:self.dateLabel];
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -206,7 +207,7 @@
     }];
     
     UIView *topLineView = [[UIView alloc] init];
-    topLineView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    topLineView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     [self.dateLabel addSubview:topLineView];
     [topLineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.dateLabel);
@@ -216,7 +217,7 @@
     }];
     
     UIView *bottomLineView = [[UIView alloc] init];
-    bottomLineView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    bottomLineView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     [self.dateLabel addSubview:bottomLineView];
     [bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.dateLabel);
@@ -245,7 +246,7 @@
         return;
     }
     self.countdownLabel = [[UILabel alloc] init];
-    self.countdownLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    self.countdownLabel.textColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     self.countdownLabel.font = [UIFont systemFontOfSize:46];
     self.countdownLabel.textAlignment = NSTextAlignmentCenter;
     [self.countdownView addSubview:self.countdownLabel];

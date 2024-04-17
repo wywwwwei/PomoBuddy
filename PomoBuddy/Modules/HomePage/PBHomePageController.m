@@ -82,11 +82,11 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 - (NSArray<PBCountdownModel *> *)countdownModels {
     if (!_countdownModels) {
         _countdownModels = @[
-            [PBCountdownModel countdownModelWithTitle:@"Afternoon" backgroundColor:RGBACOLOR(6, 139, 229, 0.4)],
-            [PBCountdownModel countdownModelWithTitle:@"Rain" backgroundColor:RGBACOLOR(70, 84, 92, 0.6)],
-            [PBCountdownModel countdownModelWithTitle:@"Forest" backgroundColor:RGBACOLOR(49, 201, 48, 0.4)],
-            [PBCountdownModel countdownModelWithTitle:@"Beach" backgroundColor:RGBACOLOR(6, 139, 229, 0.4)],
-            [PBCountdownModel countdownModelWithTitle:@"Muse" backgroundColor:RGBACOLOR(134, 55, 225, 0.3)],
+            [PBCountdownModel countdownModelWithTitle:@"Afternoon" backgroundColor:RGBACOLOR(139, 69, 19, 0.3)],
+            [PBCountdownModel countdownModelWithTitle:@"Rain" backgroundColor:RGBACOLOR(70, 84, 92, 0.4)],
+            [PBCountdownModel countdownModelWithTitle:@"Forest" backgroundColor:RGBACOLOR(85, 107, 47, 0.3)],
+            [PBCountdownModel countdownModelWithTitle:@"Beach" backgroundColor:RGBACOLOR(100, 149, 237, 0.3)],
+            [PBCountdownModel countdownModelWithTitle:@"Night" backgroundColor:RGBACOLOR(25, 25, 122, 0.65)],
         ];
     }
     return _countdownModels;
@@ -373,7 +373,8 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     [self.menuButton addTarget:self action:@selector(onMenuButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.menuButton];
     [self.menuButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.height.mas_equalTo(50);
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(35);
         make.left.mas_equalTo(10);
         make.top.mas_equalTo([PBCommonUtils safeAreaInsets].top);
     }];
@@ -392,7 +393,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         make.width.mas_equalTo(PBHomePageButtonWidth);
         make.height.mas_equalTo(PBHomePageButtonHeight);
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.bottom.mas_equalTo(-150);
+        make.bottom.mas_equalTo(-80);
     }];
 }
 
@@ -401,9 +402,9 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         return;
     }
     self.startButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.startButton.backgroundColor = RGBCOLOR(255, 84, 84);
+    self.startButton.backgroundColor = RGBACOLOR(0, 0, 0, 0.7);
     [self.startButton setTitle:@"Start" forState:UIControlStateNormal];
-    [self.startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.startButton setTitleColor:[[UIColor whiteColor]colorWithAlphaComponent:0.9] forState:UIControlStateNormal];
     self.startButton.layer.cornerRadius = PBHomePageButtonHeight / 2;
     [self.startButton addTarget:self action:@selector(onStartButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.containerView addSubview:self.startButton];
@@ -419,10 +420,10 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     self.pauseButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.pauseButton.backgroundColor = [UIColor clearColor];
     [self.pauseButton setTitle:@"Pause" forState:UIControlStateNormal];
-    [self.pauseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.pauseButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.pauseButton.layer.cornerRadius = PBHomePageButtonHeight / 2;
     self.pauseButton.layer.borderWidth = 1;
-    self.pauseButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.pauseButton.layer.borderColor = [UIColor blackColor].CGColor;
     [self.pauseButton addTarget:self action:@selector(onPauseButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.containerView addSubview:self.pauseButton];
     [self.pauseButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -435,9 +436,9 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         return;
     }
     self.resumeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.resumeButton.backgroundColor = RGBCOLOR(83, 186, 156);
+    self.resumeButton.backgroundColor = RGBACOLOR(0, 0, 0, 0.7);
     [self.resumeButton setTitle:@"Resume" forState:UIControlStateNormal];
-    [self.resumeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.resumeButton setTitleColor:[[UIColor whiteColor]colorWithAlphaComponent:0.9] forState:UIControlStateNormal];
     self.resumeButton.layer.cornerRadius = PBHomePageButtonHeight / 2;
     [self.resumeButton addTarget:self action:@selector(onResumeButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.resumeButton];
@@ -450,10 +451,10 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     self.exitButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.exitButton.backgroundColor = [UIColor clearColor];
     [self.exitButton setTitle:@"Exit" forState:UIControlStateNormal];
-    [self.exitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.exitButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.exitButton.layer.cornerRadius = PBHomePageButtonHeight / 2;
     self.exitButton.layer.borderWidth = 1;
-    self.exitButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.exitButton.layer.borderColor = [UIColor blackColor].CGColor;
     [self.exitButton addTarget:self action:@selector(onExitButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.exitButton];
 }
@@ -484,8 +485,9 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         return;
     }
     self.slider = [[UISlider alloc] init];
-    self.slider.minimumTrackTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
-    self.slider.maximumTrackTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
+    self.slider.minimumTrackTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    self.slider.maximumTrackTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    self.slider.thumbTintColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     WEAK_REF(self);
     [self.slider bk_addEventHandler:^(UISlider *sender) {
         STRONG_REF(self);
@@ -497,7 +499,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     [self.slider mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.view).multipliedBy(0.7);
         make.centerX.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(self.containerView.mas_top).offset(-70);
+        make.bottom.mas_equalTo(self.containerView.mas_top).offset(-235);
     }];
 }
 
@@ -506,7 +508,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         return;
     }
     self.durationLabel = [[UILabel alloc] init];
-    self.durationLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    self.durationLabel.textColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     [self updateDurationLabel];
     [self.view addSubview:self.durationLabel];
     [self.durationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -516,7 +518,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 }
 
 - (void)updateDurationLabel {
-    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld", self.originDuration];
+    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld minutes", self.originDuration];
     [self.durationLabel sizeToFit];
 }
 
@@ -536,7 +538,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 // 状态栏颜色为白色
 - (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDarkContent;
 }
 
 @end

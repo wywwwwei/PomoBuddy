@@ -49,6 +49,9 @@ static const CGFloat PBHomePageMenuLogoWidth = 60.f;
     }
     self.appLogoView = [[UIImageView alloc] init];
     self.appLogoView.backgroundColor = [UIColor greenColor];
+    self.appLogoView.image = [UIImage imageNamed:@"avatar"];
+    self.appLogoView.layer.cornerRadius = self.appLogoView.frame.size.width / 2;
+    self.appLogoView.clipsToBounds = YES;
     self.appLogoView.layer.cornerRadius = PBHomePageMenuLogoWidth / 2;
     [self addSubview:self.appLogoView];
     [self.appLogoView mas_makeConstraints:^(MASConstraintMaker *make) {
