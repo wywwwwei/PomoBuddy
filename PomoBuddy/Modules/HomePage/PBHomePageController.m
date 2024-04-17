@@ -10,6 +10,7 @@
 #import "PBSettingViewController.h"
 #import "PBNavigationController.h"
 #import "PBCountdownCell.h"
+#import "RecordsStatViewController.h"
 
 #import <Masonry/Masonry.h>
 #import <BlocksKit/UIGestureRecognizer+BlocksKit.h>
@@ -270,8 +271,8 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         statisticItem.handler = ^{
             STRONG_REF(self);
             // 打开历史统计页
-            PBSettingViewController *settingVC = [[PBSettingViewController alloc] init];
-            [self.navigationController pushViewController:settingVC animated:YES];
+            RecordsStatViewController *recordsVC = [[RecordsStatViewController alloc] init];
+            [self.navigationController pushViewController:recordsVC animated:YES];
         };
         [items addObject:statisticItem];
         
