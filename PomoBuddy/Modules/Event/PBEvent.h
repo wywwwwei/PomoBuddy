@@ -9,22 +9,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, PBEventRepeatType) {
-    PBEventRepeatTypeOnce,      // 一次性
-    PBEventRepeatTypeRepeat,    // 可重复的
-};
-
 @interface PBEvent : NSObject
 
 // 事件名
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *title;
 
-// 持续时间
-@property (nonatomic, assign) NSInteger duration;
+// 每次的时间
+@property (nonatomic, assign) NSInteger spendTime;
 
-// 重复类型
-@property (nonatomic, assign) PBEventRepeatType repeatType;
+// 总共做了多少时间
+@property (nonatomic, assign) NSInteger totalTime;
 
++ (instancetype)eventWithTitle:(NSString *)title
+                     spendTime:(NSInteger)spendTime
+                     totalTime:(NSInteger)totalTime;
 @end
 
 NS_ASSUME_NONNULL_END

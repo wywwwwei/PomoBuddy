@@ -11,6 +11,8 @@
 #import "PBNavigationController.h"
 #import "PBCountdownCell.h"
 #import "PBRecordsStatViewController.h"
+#import "PBEventListController.h"
+#import "PBEvent.h"
 
 #import <Masonry/Masonry.h>
 #import <BlocksKit/UIGestureRecognizer+BlocksKit.h>
@@ -55,6 +57,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupNotification];
     [self loadDefaultDuration];
     [self setupSubviews];
 }
@@ -67,6 +70,18 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO];
+}
+
+- (void)setupNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onApplyEventNotification:) name:@"ApplyEvent" object:nil];
+}
+
+- (void)onApplyEventNotification:(NSNotification *)notification {
+    PBEvent *event = notification.userInfo[@"event"];
+    if (event) {
+        _originDuration = event.spendTime;
+        [self updateDurationLabel];
+    }
 }
 
 - (void)setupSubviews {
@@ -293,8 +308,11 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         eventItem.title = @"Events";
         eventItem.handler = ^{
             // 打开事件页面
-            PBSettingViewController *settingVC = [[PBSettingViewController alloc] init];
-            [self.navigationController pushViewController:settingVC animated:YES];
+            PBEventListController *recordsVC = [[PBEventListController alloc] init];
+            PBNavigationController *nav = [[PBNavigationController alloc] initWithRootViewController:recordsVC];
+            nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+            nav.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+            [self presentViewController:nav animated:YES completion:nil];
         };
         [items addObject:eventItem];
         _menuItems = [items copy];
@@ -536,7 +554,14 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 - (void)updateDurationLabel {
     NSInteger minutes = self.originDuration / 60;
-    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld min%@", minutes, minutes > 1 ? @"s": @""];
+    NSInteger seconds = self.originDuration % 60;
+    NSString *text = nil;
+    if (seconds > 0) {
+        text = [NSString stringWithFormat:@"Countdown: %ld m %ld s", minutes, seconds];
+    } else {
+        text = [NSString stringWithFormat:@"Countdown: %ld min%@", minutes, minutes > 1 ? @"s": @""];
+    }
+    self.durationLabel.text = text;
     [self.durationLabel sizeToFit];
 }
 

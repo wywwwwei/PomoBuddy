@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PBNavigationBar : UIView
 
+@property (readonly) UILabel *titleLabel;
+@property (readonly) UIButton *backButton;
+
 - (instancetype)initWithTitle:(NSString *)title;
 
 @end
