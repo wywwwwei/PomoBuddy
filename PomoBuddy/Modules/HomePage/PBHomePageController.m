@@ -82,11 +82,13 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 - (NSArray<PBCountdownModel *> *)countdownModels {
     if (!_countdownModels) {
         _countdownModels = @[
-            [PBCountdownModel countdownModelWithTitle:@"Afternoon" backgroundColor:RGBACOLOR(139, 69, 19, 0.3)],
-            [PBCountdownModel countdownModelWithTitle:@"Rain" backgroundColor:RGBACOLOR(70, 84, 92, 0.4)],
+            [PBCountdownModel countdownModelWithTitle:@"Morning" backgroundColor:RGBACOLOR(139, 69, 19, 0.3)],
+            [PBCountdownModel countdownModelWithTitle:@"Afternoon" backgroundColor:RGBACOLOR(241, 148, 138, 0.2)],
+            [PBCountdownModel countdownModelWithTitle:@"Night" backgroundColor:RGBACOLOR(93, 121, 161, 0.4)],
+            [PBCountdownModel countdownModelWithTitle:@"Sunny" backgroundColor:RGBACOLOR(247, 220, 111, 0.4)],
+            [PBCountdownModel countdownModelWithTitle:@"Rainy" backgroundColor:RGBACOLOR(70, 84, 92, 0.4)],
+            [PBCountdownModel countdownModelWithTitle:@"Ocean" backgroundColor:RGBACOLOR(100, 149, 237, 0.3)],
             [PBCountdownModel countdownModelWithTitle:@"Forest" backgroundColor:RGBACOLOR(85, 107, 47, 0.3)],
-            [PBCountdownModel countdownModelWithTitle:@"Beach" backgroundColor:RGBACOLOR(100, 149, 237, 0.3)],
-            [PBCountdownModel countdownModelWithTitle:@"Night" backgroundColor:RGBACOLOR(25, 25, 122, 0.65)],
         ];
     }
     return _countdownModels;
@@ -492,9 +494,9 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     [self.slider bk_addEventHandler:^(UISlider *sender) {
         STRONG_REF(self);
         // from 5 to 300
-        self.originDuration = 5 + (sender.value * 295);
+        self.originDuration = 5 + (sender.value * 3595);
     } forControlEvents:UIControlEventValueChanged];
-    self.slider.value = (self.originDuration - 5) / 295.f;
+    self.slider.value = (self.originDuration - 5) / 3595.f;
     [self.view addSubview:self.slider];
     [self.slider mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.view).multipliedBy(0.7);
@@ -518,7 +520,8 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 }
 
 - (void)updateDurationLabel {
-    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld s", self.originDuration];
+    NSInteger minutes = self.originDuration / 60;
+    self.durationLabel.text = [NSString stringWithFormat:@"Countdown: %ld min", minutes];
     [self.durationLabel sizeToFit];
 }
 
