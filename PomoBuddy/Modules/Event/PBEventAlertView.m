@@ -70,6 +70,9 @@
 - (void)setupViews {
     self.backgroundColor = [UIColor whiteColor];
     self.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.1].CGColor;
+    // 圆角设置
+    self.layer.cornerRadius = 10;  // 角度设置为10
+    self.layer.masksToBounds = YES;
     self.layer.borderWidth = 2;
     [self createHeadView];
     [self createInputField];
@@ -83,8 +86,13 @@
         return;
     }
     self.headView = [[UIView alloc] init];
-    self.headView.backgroundColor = [UIColor cyanColor];
+    self.headView.backgroundColor = [UIColor colorWithRed:225/255.0 green:180/255.0 blue:135/255.0 alpha:1];
+    // 圆角设置
+    self.headView.layer.cornerRadius = 10;  // 角度设置为10
+    self.headView.layer.masksToBounds = YES;
+    
     [self addSubview:self.headView];
+
     [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(320);
         make.height.mas_equalTo(50);

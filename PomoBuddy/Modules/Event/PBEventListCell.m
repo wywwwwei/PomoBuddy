@@ -33,13 +33,13 @@
     
     NSInteger min = event.totalTime / 60;
     NSInteger sec = event.totalTime % 60;
-    NSString *desc = [NSString stringWithFormat:@"%@分钟    总学习", @(event.spendTime / 60)];
+    NSString *desc = [NSString stringWithFormat:@"%@min    spent", @(event.spendTime / 60)];
     if (min > 0) {
-        desc = [desc stringByAppendingString:[NSString stringWithFormat:@"%@分",@(min)]];
+        desc = [desc stringByAppendingString:[NSString stringWithFormat:@"%@min(s)",@(min)]];
     } else if (sec > 0) {
-        desc = [desc stringByAppendingString:[NSString stringWithFormat:@"%@秒",@(sec)]];
+        desc = [desc stringByAppendingString:[NSString stringWithFormat:@"%@second",@(sec)]];
     } else {
-        desc = [desc stringByAppendingString:@"0分"];
+        desc = [desc stringByAppendingString:@"0min"];
     }
     self.descLabel.text = desc;
     [self.descLabel sizeToFit];
@@ -57,7 +57,7 @@
     if (self.bgImageView) {
         return;
     }
-    self.bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"event_bg2"]];
+    self.bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"event_bg"]];
     self.bgImageView.layer.cornerRadius = 8;
     self.bgImageView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.bgImageView];

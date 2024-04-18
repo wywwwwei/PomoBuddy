@@ -55,16 +55,23 @@
     }
     if (!self.dataSource) {
         self.dataSource = @[
-            [PBEvent eventWithTitle:@"每周读一本好书" spendTime:200 totalTime:600],
-            [PBEvent eventWithTitle:@"跑步锻炼" spendTime:100 totalTime:500],
-            [PBEvent eventWithTitle:@"考研英语模拟" spendTime:60 totalTime:400],
-            [PBEvent eventWithTitle:@"每日阅读" spendTime:80 totalTime:300],
+            [PBEvent eventWithTitle:@"interview mock" spendTime:200 totalTime:600],
+            [PBEvent eventWithTitle:@"running" spendTime:100 totalTime:500],
+            [PBEvent eventWithTitle:@"smart phone app development" spendTime:60 totalTime:400],
+            [PBEvent eventWithTitle:@"daily reading" spendTime:80 totalTime:300],
         ];
     }
 }
 
+
 - (void)showAddEventAlert {
     PBEventAlertView *alertView = [[PBEventAlertView alloc] init];
+    UIView *overlay = [[UIView alloc] initWithFrame:self.view.bounds];
+    overlay.backgroundColor = [UIColor blackColor];
+    overlay.alpha = 0.5;
+    overlay.tag = 100; // 用于之后从视图树中删除遮罩
+    [self.view addSubview:overlay];
+
     WEAK_REF(self);
     WEAK_REF(alertView);
     alertView.confirmBlock = ^(PBEvent * _Nonnull event) {
@@ -77,13 +84,17 @@
         self.dataSource = dataSource;
         [self.tableView reloadData];
         [PBToast showToastTitle:[NSString stringWithFormat:@"\"%@\" added", event.title] duration:3];
-        
+        UIView *overlay = [self.view viewWithTag:100];
+        [overlay removeFromSuperview];
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dataSource requiringSecureCoding:YES error:nil];
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"saveList"];
     };
+
     alertView.cancelBlock = ^{
         STRONG_REF(alertView);
         [alertView dismiss];
+        UIView *overlay = [self.view viewWithTag:100];
+            [overlay removeFromSuperview];
     };
     [self.view addSubview:alertView];
     [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -139,7 +150,7 @@
         return;
     }
     self.navigationView = [[PBNavigationBar alloc] initWithTitle:@"Events"];
-    self.navigationView.backgroundColor = RGBCOLOR(94, 163, 223);
+    self.navigationView.backgroundColor = [UIColor colorWithRed:225/255.0 green:180/255.0 blue:135/255.0 alpha:0.9];
     [self.view addSubview:self.navigationView];
     [self.navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.view);
