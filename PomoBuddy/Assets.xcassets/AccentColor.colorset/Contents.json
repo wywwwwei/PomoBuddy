@@ -1,12 +1,23 @@
 {
   "colors" : [
     {
-      "filename" : "2791713342491_.pic.jpg",
+      "color" : {
+        "color-space" : "srgb",
+        "components" : {
+          "alpha" : "1.000",
+          "blue" : "194",
+          "green" : "215",
+          "red" : "225"
+        }
+      },
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }
