@@ -21,8 +21,8 @@ If errors are generated, you can
 
 #### Screenshots
 
-<img src="./Screenshots/image-20240430030644824.png" alt="image-20240430030644824" style="zoom:20%;" />	<img src="./Screenshots/image-20240430030716337.png" alt="image-20240430030716337" style="zoom:20%;" /> 	<img src="./Screenshots/image-20240430030803690.png" alt="image-20240430030803690" style="zoom:20%;" />	
+<img src="./Screenshots/image-20240430030644824.png" alt="image-20240430030644824" width="300" height="610" />	<img src="./Screenshots/image-20240430030716337.png" alt="image-20240430030716337" width="300" height="610" /> 	
 
+<img src="./Screenshots/image-20240430030803690.png" alt="image-20240430030803690" width="300" height="610" />	<img src="./Screenshots/image-20240430030939465.png" alt="image-20240430030939465" width="300" height="610" />	
 
-
-<img src="./Screenshots/image-20240430030939465.png" alt="image-20240430030939465" style="zoom:20%;" />	<img src="./Screenshots/image-20240430030958454.png" alt="image-20240430030958454" style="zoom:20%;" />	<img src="./Screenshots/image-20240430031024619.png" alt="image-20240430031024619" style="zoom:20%;" />
+<img src="./Screenshots/image-20240430030958454.png" alt="image-20240430030958454" width="300" height="610" />	<img src="./Screenshots/image-20240430031024619.png" alt="image-20240430031024619" width="300" height="610" />
