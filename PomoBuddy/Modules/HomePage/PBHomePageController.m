@@ -14,10 +14,12 @@
 #import "PBEventListController.h"
 #import "PBEvent.h"
 #import "PBToast.h"
+#import "PBSettingManager.h"
 
 #import <Masonry/Masonry.h>
 #import <BlocksKit/UIGestureRecognizer+BlocksKit.h>
 #import <BlocksKit/UIControl+BlocksKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 static const CGFloat PBHomePageButtonWidth = 120.f;
 static const CGFloat PBHomePageButtonHeight = 44.f;
@@ -52,6 +54,8 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 @property (nonatomic, weak) PBCountdownCell *currentCell;
 
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
+
 @end
 
 @implementation PBHomePageController
@@ -61,6 +65,8 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
     [self setupNotification];
     [self loadDefaultDuration];
     [self setupSubviews];
+    [self setupPlayer];
+    [self setupDisableLockScreen];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -75,6 +81,7 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 
 - (void)setupNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onApplyEventNotification:) name:@"ApplyEvent" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSettingChangeNotification:) name:PBSettingItemChange object:nil];
 }
 
 - (void)onApplyEventNotification:(NSNotification *)notification {
@@ -83,6 +90,15 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
         [PBToast showToastTitle:[NSString stringWithFormat:@"Apply event: %@", event.title] duration:3];
         _originDuration = event.spendTime;
         [self updateDurationLabel];
+    }
+}
+
+- (void)onSettingChangeNotification:(NSNotification *)notification {
+    PBSettingSwitchType switchType = [notification.userInfo[PBSettingItemTypeKey] integerValue];
+    if (switchType == PBSettingSwitchTypeWhiteNoise || switchType == PBSettingSwitchTypeMusicFusion) {
+        [self setupPlayer];
+    } else if (switchType == PBSettingSwitchTypeDisableLockScreen) {
+        [self setupDisableLockScreen];
     }
 }
 
@@ -159,6 +175,42 @@ static const CGFloat PBHomePageButtonHeight = 44.f;
 - (void)destroyTimer {
     [self.countdownTimer invalidate];
     self.countdownTimer = nil;
+}
+
+#pragma mark - Lock
+
+- (void)setupDisableLockScreen {
+    [UIApplication sharedApplication].idleTimerDisabled = [PBSettingManager disbaleLockScreen];
+}
+
+#pragma mark - Audio
+
+- (void)setupPlayer {
+    NSURL *currentUrl = nil;
+    if ([PBSettingManager enableWhiteNoise]) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"white_noise" ofType:@"mp3"];
+        currentUrl = [NSURL fileURLWithPath:path];
+    } else if ([PBSettingManager enableMusicFusion]) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"song" ofType:@"mp3"];
+        currentUrl = [NSURL fileURLWithPath:path];
+    }
+    if (![self.audioPlayer.url.absoluteString isEqualToString:currentUrl.absoluteString]) {
+        [self.audioPlayer stop];
+        self.audioPlayer = nil;
+    }
+    if (!currentUrl) {
+        return;
+    }
+    if (!self.audioPlayer) {
+        NSError *error;
+        self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:currentUrl error:&error];
+        self.audioPlayer.numberOfLoops = -1;
+        if (error) {
+            [self.audioPlayer stop];
+            self.audioPlayer = nil;
+        }
+    }
+    [self.audioPlayer play];
 }
 
 #pragma mark - Event

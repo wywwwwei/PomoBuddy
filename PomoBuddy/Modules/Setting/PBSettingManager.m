@@ -8,6 +8,10 @@
 #import "PBSettingManager.h"
 #import <BlocksKit/NSArray+BlocksKit.h>
 
+NSNotificationName PBSettingItemChange = @"__PBSettingItemChange__";
+NSString *const PBSettingItemTypeKey = @"__PBSettingItemTypeKey__";
+NSString *const PBSettingItemStatusKey = @"__PBSettingItemStatusKey__";
+
 @interface PBSettingManager ()
 
 @end
@@ -52,6 +56,10 @@
 
 + (void)updateSwitchType:(PBSettingSwitchType)type isOn:(BOOL)isOn {
     [[NSUserDefaults standardUserDefaults] setBool:isOn forKey:[self storeIdenfierOfSwitchType:type]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:PBSettingItemChange object:nil userInfo:@{
+        PBSettingItemTypeKey: @(type),
+        PBSettingItemStatusKey: @(isOn)
+    }];
 }
 
 + (BOOL)enableWhiteNoise {

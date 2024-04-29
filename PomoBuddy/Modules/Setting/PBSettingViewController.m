@@ -63,16 +63,14 @@
     label.font = [UIFont boldSystemFontOfSize:20.0]; // 设置字体为20号加粗
     [headerView addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(20);
         make.left.mas_equalTo(20);
-        make.bottom.mas_equalTo(label);
+        make.centerY.mas_equalTo(headerView);
     }];
     return headerView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     PBSettingSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(PBSettingSwitchCell.class)];
     if (!cell) {
         cell = [[PBSettingSwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(PBSettingSwitchCell.class)];
@@ -110,7 +108,7 @@
     self.settingsView.delegate = self;
     self.settingsView.backgroundColor = [UIColor clearColor];
     self.settingsView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.settingsView.rowHeight = 60;
+    self.settingsView.rowHeight = 50;
     [self.view addSubview:self.settingsView];
     [self.settingsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(self.view);

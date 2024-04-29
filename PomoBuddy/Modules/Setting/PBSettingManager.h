@@ -10,6 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+OBJC_EXTERN NSNotificationName PBSettingItemChange;
+OBJC_EXTERN NSString *const PBSettingItemTypeKey;
+OBJC_EXTERN NSString *const PBSettingItemStatusKey;
+
 @interface PBSettingManager : NSObject
 
 + (NSArray<PBSettingGroup *> *)loadSettings;

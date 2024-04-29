@@ -32,6 +32,8 @@
 		856AF1F92BCB0B7100F6FD55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 856AF1F82BCB0B7100F6FD55 /* Assets.xcassets */; };
 		856AF1FC2BCB0B7100F6FD55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 856AF1FA2BCB0B7100F6FD55 /* LaunchScreen.storyboard */; };
 		856AF1FF2BCB0B7100F6FD55 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 856AF1FE2BCB0B7100F6FD55 /* main.m */; };
+		85DC4E002BE0205400183C9C /* white_noise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 85DC4DFE2BE0205400183C9C /* white_noise.mp3 */; };
+		85DC4E012BE0205400183C9C /* song.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 85DC4DFF2BE0205400183C9C /* song.mp3 */; };
 		EE56F3BF2BCF7F07005F56E3 /* PBRecordsStatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE56F3BE2BCF7F07005F56E3 /* PBRecordsStatViewController.m */; };
 		EE56F3C22BCF800F005F56E3 /* PBHistoricalDataRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = EE56F3C12BCF800F005F56E3 /* PBHistoricalDataRecord.m */; };
 /* End PBXBuildFile section */
@@ -88,6 +90,8 @@
 		856AF1FB2BCB0B7100F6FD55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		856AF1FD2BCB0B7100F6FD55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		856AF1FE2BCB0B7100F6FD55 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		85DC4DFE2BE0205400183C9C /* white_noise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = white_noise.mp3; sourceTree = "<group>"; };
+		85DC4DFF2BE0205400183C9C /* song.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song.mp3; sourceTree = "<group>"; };
 		B33B42EE5A767CD5810D5F5C /* Pods-PomoBuddy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PomoBuddy.debug.xcconfig"; path = "Target Support Files/Pods-PomoBuddy/Pods-PomoBuddy.debug.xcconfig"; sourceTree = "<group>"; };
 		EE56F3BD2BCF7F07005F56E3 /* PBRecordsStatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PBRecordsStatViewController.h; sourceTree = "<group>"; };
 		EE56F3BE2BCF7F07005F56E3 /* PBRecordsStatViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PBRecordsStatViewController.m; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 		850BD5D22BCB106500A0103E /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				85DC4DFD2BE0204400183C9C /* AudioAssets */,
 				EE56F3BC2BCF7EDD005F56E3 /* Stat */,
 				850BD5F62BCE1F8F00A0103E /* Navigation */,
 				850BD5E52BCC264600A0103E /* Menu */,
@@ -254,6 +259,15 @@
 			path = PomoBuddy;
 			sourceTree = "<group>";
 		};
+		85DC4DFD2BE0204400183C9C /* AudioAssets */ = {
+			isa = PBXGroup;
+			children = (
+				85DC4DFF2BE0205400183C9C /* song.mp3 */,
+				85DC4DFE2BE0205400183C9C /* white_noise.mp3 */,
+			);
+			path = AudioAssets;
+			sourceTree = "<group>";
+		};
 		EE56F3BC2BCF7EDD005F56E3 /* Stat */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +338,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85DC4E002BE0205400183C9C /* white_noise.mp3 in Resources */,
+				85DC4E012BE0205400183C9C /* song.mp3 in Resources */,
 				856AF1FC2BCB0B7100F6FD55 /* LaunchScreen.storyboard in Resources */,
 				856AF1F92BCB0B7100F6FD55 /* Assets.xcassets in Resources */,
 			);
