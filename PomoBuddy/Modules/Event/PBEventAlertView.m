@@ -64,7 +64,7 @@
         text = [NSString stringWithFormat:@"%ld min%@", mins, mins > 1 ? @"s": @""];
     }
     self.timeLabel.text = text;
-    [self sizeToFit];
+    [self.timeLabel sizeToFit];
 }
 
 - (void)setupViews {
